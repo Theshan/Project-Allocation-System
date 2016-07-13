@@ -50,4 +50,16 @@ public class CandidateAssignment {
 		int rank = this.student.getRanking(project);
 		return (rank + 2) * (rank + 2);
 	}
+        
+        public void updateToBetterAssignment() {
+            String newPref = "";
+            newPref = this.student.getRandomPreference();
+            //check if student is preassigned. if so don't do anythig
+            //else, get the rank of current assigned project (this.student.getRanking(this.project))
+            //      get the rank of current assigned project (this.student.getRanking(newPref))
+            //      if (newRank < currentRank) {
+            //          this.setProject(newPref);   }
+            
+            
+        }
 }

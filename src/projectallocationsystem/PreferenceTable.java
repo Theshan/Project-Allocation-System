@@ -146,24 +146,27 @@ public class PreferenceTable {
 		while(itrRow.hasNext()) {
 			StudentEntry student    = itrRow.next();
 			int prefCount           = student.getNumberOfPreferencedProjects();
-			while (prefCount < maxPrefs) {
+			if (!student.hasPreassignedProject()) {
+                            while (prefCount < maxPrefs) {
 				String newPref 	= getRandomPreference();
 				if(newPref != null){
-					Vector<String> studentPrefs = student.getOrderedPreferences();
 					if (student.hasPreassignedProject() == false) {
 						if (!student.hasPreference(newPref.intern())) {
 							student.addProject(newPref.intern());
 						}
-					} else {
-						if (!student.hasPreference(newPref.intern())) {
-							student.addProject(newPref.intern());
-						}
-					}
+					} 
+//                                        else {
+//						if (!student.hasPreference(newPref.intern())) {
+//							student.addProject(newPref.intern());
+//						}
+//					}
 				}
 				prefCount = student.getOrderedPreferences().size();
-			}
-			System.out.println("after filling projects to preferences of this student***");
+                            }
+                        }
+//			System.out.println("after filling projects to preferences of this student***");
 			System.out.println(student.toString());
 		}
 	}	
 }
+//

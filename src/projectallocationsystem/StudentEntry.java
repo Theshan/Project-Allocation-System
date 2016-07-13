@@ -55,7 +55,9 @@ public class StudentEntry {
 	}
 	
 	void addProject(String pName) {
-		this.preferredProjects.add(pName);
+		if (!preAssigned) {
+                    this.preferredProjects.add(pName);
+                }
 	}
 	
 	public String getRandomPreference() {
@@ -64,7 +66,9 @@ public class StudentEntry {
 			int index 		= rnd.nextInt(preferenceCount) + 0;
 			String randomProject 	= preferredProjects.elementAt(index).intern();
 			return randomProject;
-		} else {
+		} else if(preAssigned) {
+                    return preAssignedProject;
+                } else {
 			return null;
 		}	
 	}
@@ -76,10 +80,21 @@ public class StudentEntry {
 	public String toString() {
 		String returnString = "";
 		returnString += "student name  	    : " + this.studentName + "\n";
-		returnString += "*** prefered or preferenced projects ****\n";
 		if (this.preAssigned) {
-			returnString += this.preAssignedProject;
+                        returnString += "*** preAssigned projects ****\n";
+			returnString += this.preAssignedProject + "\n";
+                        
+                        returnString += "*** prefered projects ****\n";
+			Vector<String> tableRow = this.preferredProjects;
+			java.util.Iterator<String> itrRow = tableRow.iterator();
+			int i = 0;
+			while(itrRow.hasNext()) {
+				String token = itrRow.next();
+				returnString += i+". "+token + "\n";
+				i++;
+			}
 		} else {
+                        returnString += "*** prefered projects ****\n";
 			Vector<String> tableRow = this.preferredProjects;
 			java.util.Iterator<String> itrRow = tableRow.iterator();
 			int i = 0;
