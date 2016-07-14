@@ -26,14 +26,13 @@ public class SimulatedAnnealing {
     private void doAnealing() {
         
         while(temperature > 0) {
-            CandidateSolution newSolution = new CandidateSolution(currentSolution);    
-            newSolution.updateToBetterSolution();   //go and see the method. you have to fill it
-            int newEnergy = newSolution.getEnergy();
+            CandidateSolution newBetterSolution = new CandidateSolution(currentSolution);     //go and see the method. you have to fill it
+            int newEnergy = newBetterSolution.getEnergy();
             int currentEnergy = currentSolution.getEnergy();
             double acceptanceProb = getAccepProbability(currentEnergy, newEnergy, temperature);
             
             if (acceptanceProb >= 1.0) { // i don't know whether this condition is correct or wrong. let's put it that way just for now.
-                currentSolution = newSolution;
+                currentSolution = newBetterSolution;
             }
             
             

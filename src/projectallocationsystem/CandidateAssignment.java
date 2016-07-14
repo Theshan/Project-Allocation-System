@@ -59,6 +59,13 @@ public class CandidateAssignment {
             //      get the rank of current assigned project (this.student.getRanking(newPref))
             //      if (newRank < currentRank) {
             //          this.setProject(newPref);   }
+            if(this.student.hasPreassignedProject() == false){
+                int current_rank = this.student.getRanking(this.project);
+                int new_rank     = this.student.getRanking(newPref);
+                if (new_rank < current_rank){
+                    this.setProject(newPref);
+                }
+            }
             
             
         }

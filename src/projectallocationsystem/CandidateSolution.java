@@ -7,6 +7,7 @@ package projectallocationsystem;
 
 import java.util.Hashtable;
 import java.util.Random;
+import java.util.Set;
 import java.util.Vector;
 
 /**
@@ -31,6 +32,7 @@ public class CandidateSolution {
         this.panelty                    = another.panelty;
         this.energy                     = another.energy;
         this.preferenceTable            = another.preferenceTable;
+        updateToBetterSolution();
     }
     
 
@@ -62,11 +64,36 @@ public class CandidateSolution {
             }		
     }
 
-    public void updateToBetterSolution() {
+    private void updateToBetterSolution() {
         //iterate and get each candidateAssignment instance of the solution
         //call updateToBetterAssignment method in CandidateAssignment from the instance
         //candAss.updateToBetterAssignment()
         //after you iterate all the students now you have a better version of cand solution
+        assignments				= new Vector<CandidateAssignment>(); //reseting
+        noOfStdAssinedToProject 		= new Hashtable<String, Integer>(); //reseting
+        energy                                  = 0;
+        panelty                                 = 0;
+        
+        Set<String> keySet = candidateAssignmentsMap.keySet();
+        java.util.Iterator<String> it = keySet.iterator();
+        while(it.hasNext()){
+            String candAssignment = it.next();
+            CandidateAssignment cand = candidateAssignmentsMap.get(it);
+            cand.updateToBetterAssignment();
+            //CandidateAssignment cand 	= new CandidateAssignment();
+
+                    if(noOfStdAssinedToProject.containsKey(cand.getAssignedProject().intern())) {
+                            noOfStdAssinedToProject.put(cand.getAssignedProject().intern(), noOfStdAssinedToProject.get(cand.getAssignedProject().intern()) + 1);   
+                            panelty += paneltyConstant;
+                    } else {
+                            noOfStdAssinedToProject.put(cand.getAssignedProject().intern(),1);
+                    }
+
+                    candidateAssignmentsMap.put(candAssignment, cand);
+                    assignments.addElement(cand);
+
+                    energy += cand.getEnergy();
+        }
     }
     
     public CandidateAssignment getRandomAssignment() {
