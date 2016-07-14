@@ -19,8 +19,9 @@ public class ProjectAllocationSystem {
         PreferenceTable preferenceTable             = new PreferenceTable(filename);
         preferenceTable.fillPreferencesOfAll(10);
         CandidateSolution sol                       = new CandidateSolution(preferenceTable);
-        System.out.println("Sol Energy              : "+ sol.getEnergy());
-        System.out.println("Sol Fitness             : "+ sol.getFitness());
+//        System.out.println("Sol Energy              : "+ sol.getEnergy());
+//        System.out.println("Sol Fitness             : "+ sol.getFitness());
+        SimulatedAnnealing annealedSolution = new SimulatedAnnealing(sol);
     }
     
 }

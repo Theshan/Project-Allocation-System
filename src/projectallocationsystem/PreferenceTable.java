@@ -117,7 +117,7 @@ public class PreferenceTable {
 			java.util.Iterator<String> itrRow   = tableRow.iterator();
 			while(itrRow.hasNext()) {
 				String token                = itrRow.next();
-				System.out.println("iterate token : "+ token);
+//				System.out.println("iterate token : "+ token);
 			}
 		}
 	}
@@ -165,7 +165,7 @@ public class PreferenceTable {
                             }
                         }
 //			System.out.println("after filling projects to preferences of this student***");
-			System.out.println(student.toString());
+//			System.out.println(student.toString());
 		}
 	}	
 }

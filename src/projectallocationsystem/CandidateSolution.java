@@ -55,12 +55,12 @@ public class CandidateSolution {
                     assignments.addElement(cand);
 
                     energy += cand.getEnergy();
-                    System.out.println("student 			: "+ cand.getStudentEntry().getStudentName());
-                    System.out.println("project 			: "+ cand.getAssignedProject());
-                    System.out.println("cand energy			: "+ cand.getEnergy());
-                    System.out.println("sume of each energy upto now	: "+ energy);
-                    System.out.println("sum of panelty upto now		: "+ panelty);
-                    System.out.println("");
+//                    System.out.println("student 			: "+ cand.getStudentEntry().getStudentName());
+//                    System.out.println("project 			: "+ cand.getAssignedProject());
+//                    System.out.println("cand energy			: "+ cand.getEnergy());
+//                    System.out.println("sume of each energy upto now	: "+ energy);
+//                    System.out.println("sum of panelty upto now		: "+ panelty);
+//                    System.out.println("");
             }		
     }
 
@@ -77,22 +77,20 @@ public class CandidateSolution {
         Set<String> keySet = candidateAssignmentsMap.keySet();
         java.util.Iterator<String> it = keySet.iterator();
         while(it.hasNext()){
-            String candAssignment = it.next();
-            CandidateAssignment cand = candidateAssignmentsMap.get(it);
+            String studentName = it.next();
+            CandidateAssignment cand = candidateAssignmentsMap.get(studentName);            
             cand.updateToBetterAssignment();
-            //CandidateAssignment cand 	= new CandidateAssignment();
+            if(noOfStdAssinedToProject.containsKey(cand.getAssignedProject().intern())) {
+                    noOfStdAssinedToProject.put(cand.getAssignedProject().intern(), noOfStdAssinedToProject.get(cand.getAssignedProject().intern()) + 1);   
+                    panelty += paneltyConstant;
+            } else {
+                    noOfStdAssinedToProject.put(cand.getAssignedProject().intern(),1);
+            }
 
-                    if(noOfStdAssinedToProject.containsKey(cand.getAssignedProject().intern())) {
-                            noOfStdAssinedToProject.put(cand.getAssignedProject().intern(), noOfStdAssinedToProject.get(cand.getAssignedProject().intern()) + 1);   
-                            panelty += paneltyConstant;
-                    } else {
-                            noOfStdAssinedToProject.put(cand.getAssignedProject().intern(),1);
-                    }
+            candidateAssignmentsMap.put(studentName, cand);
+            assignments.addElement(cand);
 
-                    candidateAssignmentsMap.put(candAssignment, cand);
-                    assignments.addElement(cand);
-
-                    energy += cand.getEnergy();
+            energy += cand.getEnergy();
         }
     }
     
