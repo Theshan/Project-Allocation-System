@@ -32,7 +32,7 @@ public class CandidateSolution {
         this.panelty                    = another.panelty;
         this.energy                     = another.energy;
         this.preferenceTable            = another.preferenceTable;
-        updateToBetterSolution();
+//        updateToBetterSolution();
     }
     
 
@@ -64,7 +64,7 @@ public class CandidateSolution {
             }		
     }
 
-    private void updateToBetterSolution() {
+    public void updateToBetterSolution() {
         //iterate and get each candidateAssignment instance of the solution
         //call updateToBetterAssignment method in CandidateAssignment from the instance
         //candAss.updateToBetterAssignment()
