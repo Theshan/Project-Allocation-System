@@ -24,6 +24,7 @@ public class CandidateSolution {
     PreferenceTable preferenceTable;
 
     private Random rnd = new Random();
+    private static int maxFitness = 0;
 
     public CandidateSolution(CandidateSolution another) {
         this.assignments                = another.assignments;
@@ -109,5 +110,9 @@ public class CandidateSolution {
 
     public int getFitness() {
             return (-1) * getEnergy();
+    }
+    
+    static public int getMaxFitness() {
+        return maxFitness;
     }
 }

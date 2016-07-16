@@ -13,13 +13,22 @@ public class GeneticAlgorithm {
     private PreferenceTable preferenceTable;
     private Population population;
     
-    
     public GeneticAlgorithm(PreferenceTable pref){
         this.preferenceTable = pref;
-        generatePopulation();
-    }
-    
-    public void generatePopulation(){
+        // Create an initial population
+        Population myPop = new Population(10, preferenceTable);
         
+        // Evolve our population until we reach an optimum solution
+        int generationCount = 0;
+        while (myPop.getFittest().getFitness() < CandidateSolution.getMaxFitness()) {
+            generationCount++;
+            System.out.println("Generation: " + generationCount + " Fittest: " + myPop.getFittest().getFitness());
+//            myPop = Algorithm.evolvePopulation(myPop);
+        }
     }
+     
+    
+    
+    
+    
 }
