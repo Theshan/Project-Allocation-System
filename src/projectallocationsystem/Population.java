@@ -11,9 +11,11 @@ package projectallocationsystem;
  */
 public class Population {
     int populationSize = 10;
+    PreferenceTable prefTable;
     CandidateSolution[] solutions;
 
     public Population(int populationSize, PreferenceTable pref) {
+        this.prefTable = pref;
         solutions = new CandidateSolution[this.populationSize];
         
         for (int i = 0; i < size(); i++) {

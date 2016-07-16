@@ -115,4 +115,8 @@ public class CandidateSolution {
     static public int getMaxFitness() {
         return maxFitness;
     }
+    
+    public Hashtable<String, CandidateAssignment> getCandidateAssignmentsMap() {
+        return this.candidateAssignmentsMap;
+    }
 }
