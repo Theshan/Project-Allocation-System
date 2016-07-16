@@ -10,11 +10,12 @@ package projectallocationsystem;
  * @author adventure-ro
  */
 public class Population {
-    int populationSize = 10;
+    int populationSize;
     PreferenceTable prefTable;
     CandidateSolution[] solutions;
 
     public Population(int populationSize, PreferenceTable pref) {
+        this.populationSize = populationSize;
         this.prefTable = pref;
         solutions = new CandidateSolution[this.populationSize];
         

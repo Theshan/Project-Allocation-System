@@ -18,12 +18,14 @@ public class ProjectAllocationSystem {
         String filename                             = "src/projectallocationsystem/projectAllocationData.tsv";
         PreferenceTable preferenceTable             = new PreferenceTable(filename);
         preferenceTable.fillPreferencesOfAll(10);
+
         CandidateSolution sol                       = new CandidateSolution(preferenceTable);
-//        System.out.println("Sol Energy              : "+ sol.getEnergy());
-//        System.out.println("Sol Fitness             : "+ sol.getFitness());
         
-        SimulatedAnnealing annealedSolution = new SimulatedAnnealing(sol);
-        Report rp = new Report(annealedSolution, preferenceTable);
+        SimulatedAnnealing annealedSolution         = new SimulatedAnnealing(sol);
+        Report report                               = new Report(annealedSolution, preferenceTable);
+        
+        GeneticAlgorithm gaSolution                 = new GeneticAlgorithm(2, preferenceTable);
+        
     }
     
 }
