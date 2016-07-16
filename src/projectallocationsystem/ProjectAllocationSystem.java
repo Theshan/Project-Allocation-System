@@ -21,7 +21,9 @@ public class ProjectAllocationSystem {
         CandidateSolution sol                       = new CandidateSolution(preferenceTable);
 //        System.out.println("Sol Energy              : "+ sol.getEnergy());
 //        System.out.println("Sol Fitness             : "+ sol.getFitness());
+        
         SimulatedAnnealing annealedSolution = new SimulatedAnnealing(sol);
+        Report rp = new Report(annealedSolution, preferenceTable);
     }
     
 }
