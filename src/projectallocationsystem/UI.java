@@ -13,6 +13,11 @@ import javax.swing.JTable;
 import javax.swing.filechooser.FileNameExtensionFilter;
 import java.text.*;
 import java.awt.print.*;
+import java.util.Set;
+import java.util.Vector;
+import javax.swing.JOptionPane;
+import javax.swing.JRootPane;
+import javax.swing.table.DefaultTableModel;
 
 /**
  *
@@ -27,7 +32,7 @@ public class UI extends javax.swing.JFrame {
         initComponents();
     }
 
-      public String path;
+      private String path = "";
     /**
      * This method is called from within the constructor to initialize the form.
      * WARNING: Do NOT modify this code. The content of this method is always
@@ -58,13 +63,14 @@ public class UI extends javax.swing.JFrame {
         Report = new javax.swing.JPanel();
         btnsave = new javax.swing.JButton();
         jPanel6 = new javax.swing.JPanel();
-        jButton2 = new javax.swing.JButton();
+        executeBtn = new javax.swing.JButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         setTitle("Project Allocation System");
         setCursor(new java.awt.Cursor(java.awt.Cursor.DEFAULT_CURSOR));
         setResizable(false);
 
+        txtpath.setEditable(false);
         txtpath.setFont(new java.awt.Font("Arial", 0, 11)); // NOI18N
         txtpath.setCursor(new java.awt.Cursor(java.awt.Cursor.TEXT_CURSOR));
         txtpath.addActionListener(new java.awt.event.ActionListener() {
@@ -108,25 +114,25 @@ public class UI extends javax.swing.JFrame {
 
         jTable1.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
-                {null, null},
-                {null, null},
-                {null, null},
-                {null, null},
-                {null, null},
-                {null, null},
-                {null, null},
-                {null, null},
-                {null, null}
+                {null, null, null},
+                {null, null, null},
+                {null, null, null},
+                {null, null, null},
+                {null, null, null},
+                {null, null, null},
+                {null, null, null},
+                {null, null, null},
+                {null, null, null}
             },
             new String [] {
-                "Student Name", "Assigned Project "
+                "Student Name", "Assigned Project ", "Rank Evaluation"
             }
         ) {
             Class[] types = new Class [] {
-                java.lang.String.class, java.lang.String.class
+                java.lang.String.class, java.lang.String.class, java.lang.Integer.class
             };
             boolean[] canEdit = new boolean [] {
-                false, false
+                false, false, true
             };
 
             public Class getColumnClass(int columnIndex) {
@@ -137,6 +143,7 @@ public class UI extends javax.swing.JFrame {
                 return canEdit [columnIndex];
             }
         });
+        jTable1.setFocusable(false);
         jScrollPane1.setViewportView(jTable1);
 
         javax.swing.GroupLayout jPanel3Layout = new javax.swing.GroupLayout(jPanel3);
@@ -198,25 +205,25 @@ public class UI extends javax.swing.JFrame {
 
         jTable2.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
-                {null, null},
-                {null, null},
-                {null, null},
-                {null, null},
-                {null, null},
-                {null, null},
-                {null, null},
-                {null, null},
-                {null, null}
+                {null, null, null},
+                {null, null, null},
+                {null, null, null},
+                {null, null, null},
+                {null, null, null},
+                {null, null, null},
+                {null, null, null},
+                {null, null, null},
+                {null, null, null}
             },
             new String [] {
-                "Student Name", "Assigned Project"
+                "Student Name", "Assigned Project", "Rank Evaluation"
             }
         ) {
             Class[] types = new Class [] {
-                java.lang.String.class, java.lang.String.class
+                java.lang.String.class, java.lang.String.class, java.lang.Integer.class
             };
             boolean[] canEdit = new boolean [] {
-                false, false
+                false, false, true
             };
 
             public Class getColumnClass(int columnIndex) {
@@ -311,9 +318,14 @@ public class UI extends javax.swing.JFrame {
 
         SA.addTab("Report Generation", Report);
 
-        jButton2.setFont(new java.awt.Font("Arial", 1, 13)); // NOI18N
-        jButton2.setText("Execute");
-        jButton2.setPreferredSize(new java.awt.Dimension(73, 20));
+        executeBtn.setFont(new java.awt.Font("Arial", 1, 13)); // NOI18N
+        executeBtn.setText("Execute");
+        executeBtn.setPreferredSize(new java.awt.Dimension(73, 20));
+        executeBtn.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                executeBtnActionPerformed(evt);
+            }
+        });
 
         javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
         jPanel1.setLayout(jPanel1Layout);
@@ -328,7 +340,7 @@ public class UI extends javax.swing.JFrame {
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addComponent(btnbrowse, javax.swing.GroupLayout.PREFERRED_SIZE, 88, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(jButton2, javax.swing.GroupLayout.PREFERRED_SIZE, 83, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addComponent(executeBtn, javax.swing.GroupLayout.PREFERRED_SIZE, 83, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addGap(0, 0, Short.MAX_VALUE)))
                 .addContainerGap())
         );
@@ -339,7 +351,7 @@ public class UI extends javax.swing.JFrame {
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
                     .addComponent(txtpath, javax.swing.GroupLayout.PREFERRED_SIZE, 29, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(btnbrowse, javax.swing.GroupLayout.DEFAULT_SIZE, 30, Short.MAX_VALUE)
-                    .addComponent(jButton2, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                    .addComponent(executeBtn, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                 .addComponent(SA, javax.swing.GroupLayout.PREFERRED_SIZE, 558, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(0, 0, 0))
@@ -384,6 +396,45 @@ public class UI extends javax.swing.JFrame {
         
         
     }//GEN-LAST:event_btnsaveActionPerformed
+
+    private void executeBtnActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_executeBtnActionPerformed
+        if (path != "") {
+            String filename                             = path;
+            PreferenceTable preferenceTable             = new PreferenceTable(filename);
+            preferenceTable.fillPreferencesOfAll(10);
+            CandidateSolution solInstance               = new CandidateSolution(preferenceTable);
+            SimulatedAnnealing saInstance               = new SimulatedAnnealing(solInstance);
+            CandidateSolution saSol                     = saInstance.getModifiedBestSolution();
+            Vector<Vector<String>> dataSet = new Vector<Vector<String>>();
+
+            Set<String> keySet = saSol.getCandidateAssignmentsMap().keySet();
+            java.util.Iterator<String> it = keySet.iterator();
+            while(it.hasNext()){
+                String studentName = it.next();
+                CandidateAssignment cand = saSol.getCandidateAssignmentsMap().get(studentName);
+                
+                String assignedProject  = cand.getAssignedProject();
+                int ranking             = cand.getStudentEntry().getRanking(assignedProject);
+                String rankingToString  = Integer.toString(ranking);
+                Vector<String> rowDataSet      = new Vector<String>();
+                rowDataSet.add(studentName);
+                rowDataSet.add(assignedProject);
+                rowDataSet.add(rankingToString);
+                dataSet.add(rowDataSet);
+            }
+
+            Vector<String> columnNameDataSet    = new Vector<String>();
+            columnNameDataSet.add("Student Name");
+            columnNameDataSet.add("Assigned Project");
+            columnNameDataSet.add("Rank Evaluation");
+
+            DefaultTableModel model = new DefaultTableModel(dataSet, columnNameDataSet);
+            jTable2.setModel(model);
+        } else {
+            JOptionPane.showMessageDialog(rootPane, "tsv file not found","Error",
+    JOptionPane.ERROR_MESSAGE);
+        }
+    }//GEN-LAST:event_executeBtnActionPerformed
 
     /**
      * @param args the command line arguments
@@ -433,7 +484,7 @@ public class UI extends javax.swing.JFrame {
     private javax.swing.JTextField Temp;
     private javax.swing.JButton btnbrowse;
     private javax.swing.JButton btnsave;
-    private javax.swing.JButton jButton2;
+    private javax.swing.JButton executeBtn;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel3;
