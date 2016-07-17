@@ -17,7 +17,7 @@ public class GeneticAlgorithm {
     private static final double mutationRate    = 0.015;
     private static final int tournamentSize     = 5;
     private static final boolean elitism        = true;
-    private static final int optimisedGenNum    = 20;
+    private static final int optimisedGenNum    = 75;
     
     private PreferenceTable preferenceTable;
     private int populationSize;
@@ -121,6 +121,10 @@ public class GeneticAlgorithm {
         // Get the fittest
         CandidateSolution fittest = tournament.getFittest();
         return fittest;
+    }
+    
+    public CandidateSolution getFittestSolution(){
+        return this.population.getFittest();
     }
     
 }

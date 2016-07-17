@@ -22,10 +22,13 @@ public class ProjectAllocationSystem {
         CandidateSolution sol                       = new CandidateSolution(preferenceTable);
         
         SimulatedAnnealing annealedSolution         = new SimulatedAnnealing(sol);
-        Report report                               = new Report(annealedSolution, preferenceTable);
+
         
         GeneticAlgorithm gaSolution                 = new GeneticAlgorithm(2, preferenceTable);
-        
+
+        Report report                               = new Report(annealedSolution, gaSolution);
+        report.simulatedAnnealingReport();
+        report.geneticAllgorithmReport();
     }
     
 }
