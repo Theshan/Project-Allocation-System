@@ -11,7 +11,7 @@ package projectallocationsystem;
  */
 public class SimulatedAnnealing {
     private CandidateSolution currentSolution;
-    private double temperature          = 2;
+    private double temperature          = 10;
     private double coolingTemperature   = 1;
     private int startingEnergy;
     private CandidateSolution bestSoluteion;

@@ -12,12 +12,11 @@ import java.util.Set;
  * @author Olympians
  */
 public class GeneticAlgorithm {
-    /* GA parameters */
     private static final double uniformRate     = 0.5;
     private static final double mutationRate    = 0.015;
-    private static final int tournamentSize     = 5;
+    private static final int cullSize           = 5;
     private static final boolean elitism        = true;
-    private static final int optimisedGenNum    = 5;
+    private static final int optimisedGenNum    = 100;
     
     private PreferenceTable preferenceTable;
     private int populationSize;
@@ -27,11 +26,10 @@ public class GeneticAlgorithm {
     public GeneticAlgorithm(int populationSize, PreferenceTable pref){
         this.preferenceTable    = pref;
         this.populationSize     = populationSize;
-        // Create an initial population
         this.population         = new Population(this.populationSize, preferenceTable);
         this.startingFitness    = population.getFittest().getFitness();
-        // Evolve our population until we reach an optimum solution
         System.out.println("====================================== Genetic Algorithm Execute ======================================");
+        
         int generationCount     = 0;
         while (generationCount < optimisedGenNum) {
             generationCount++;
@@ -45,34 +43,27 @@ public class GeneticAlgorithm {
         System.out.println("");
     }
 
-    /* Public methods */
-    
-    // Evolve a population
     private Population evolvePopulation(Population pop) {
         Population newPopulation = new Population(pop.size(), pop.prefTable);
 
-        // Keep our best individual
         if (elitism) {
             newPopulation.saveIndividual(0, pop.getFittest());
         }
 
-        // Crossover population
         int elitismOffset;
         if (elitism) {
             elitismOffset = 1;
         } else {
             elitismOffset = 0;
         }
-        // Loop over the population size and create new individuals with
-        // crossover
+
         for (int i = elitismOffset; i < pop.size(); i++) {
-            CandidateSolution sol1      = tournamentSelection(pop);
-            CandidateSolution sol2      = tournamentSelection(pop);
+            CandidateSolution sol1      = cullPopulation(pop);
+            CandidateSolution sol2      = cullPopulation(pop);
             CandidateSolution newSol    = crossover(sol1, sol2);
             newPopulation.saveIndividual(i, newSol);
         }
 
-        // Mutate population
         for (int i = elitismOffset; i < newPopulation.size(); i++) {
             mutate(newPopulation.getSolution(i));
         }
@@ -80,15 +71,13 @@ public class GeneticAlgorithm {
         return newPopulation;
     }
 
-    // Crossover individuals
     private CandidateSolution crossover(CandidateSolution sol1, CandidateSolution sol2) {
         CandidateSolution newSol            = new CandidateSolution(preferenceTable);
-        // Loop through candAssignments
+
         Set<String> keySet                  = newSol.getCandidateAssignmentsMap().keySet();
         java.util.Iterator<String> it       = keySet.iterator();
         while(it.hasNext()){
             String studentName              = it.next();
-//            candidateAssignmentsMap.put(studentName, cand);
             if (Math.random() <= uniformRate) {
                 CandidateAssignment cand    = sol1.getGene(studentName);
                 newSol.setGene(studentName, cand);
@@ -100,15 +89,12 @@ public class GeneticAlgorithm {
         return newSol;
     }
 
-    // Mutate an individual
     private void mutate(CandidateSolution sol) {
-        // Loop through genes        
         Set<String> keySet                  = sol.getCandidateAssignmentsMap().keySet();
         java.util.Iterator<String> it       = keySet.iterator();
         while(it.hasNext()){
             String studentName              = it.next();
             if (Math.random() <= mutationRate) {
-                // Create random gene
                 CandidateAssignment cand    = sol.getGene(studentName);
                 cand.randomizeAssignment();
                 sol.setGene(studentName, cand);
@@ -116,16 +102,14 @@ public class GeneticAlgorithm {
         }
     }
 
-    // Select individuals for crossover
-    private static CandidateSolution tournamentSelection(Population pop) {
-        // Create a tournament population
-        Population tournament               = new Population(tournamentSize, pop.prefTable);
-        // For each place in the tournament get a random individual
-        for (int i = 0; i < tournamentSize; i++) {
+    private static CandidateSolution cullPopulation(Population pop) {
+        Population tournament               = new Population(cullSize, pop.prefTable);
+ 
+        for (int i = 0; i < cullSize; i++) {
             int randomId                    = (int) (Math.random() * pop.size());
             tournament.saveIndividual(i, pop.getSolution(randomId));
         }
-        // Get the fittest
+
         CandidateSolution fittest           = tournament.getFittest();
         return fittest;
     }
