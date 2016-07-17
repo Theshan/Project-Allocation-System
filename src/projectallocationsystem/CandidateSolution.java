@@ -17,8 +17,8 @@ import java.util.Vector;
 public class CandidateSolution {
     private Vector<CandidateAssignment> assignments				= new Vector<CandidateAssignment>(); 
     private Hashtable<String, CandidateAssignment> candidateAssignmentsMap 	= new Hashtable<String, CandidateAssignment>();
-    private Hashtable<String, Integer> noOfStdAssinedToProject 		= new Hashtable<String, Integer>();
-    private final int paneltyConstant 					= 1000;
+    private Hashtable<String, Integer> noOfStdAssinedToProject                  = new Hashtable<String, Integer>();
+    private final int paneltyConstant                                           = 1000;
     private int panelty 													= 0;
     private int energy 														= 0;	
     PreferenceTable preferenceTable;
@@ -33,17 +33,15 @@ public class CandidateSolution {
         this.panelty                    = another.panelty;
         this.energy                     = another.energy;
         this.preferenceTable            = another.preferenceTable;
-//        updateToBetterSolution();
     }
-    
 
     public CandidateSolution(PreferenceTable pref){
             this.preferenceTable 			= pref;
             Vector<StudentEntry> studentEntries 	= preferenceTable.getAllStudentEntries();
-            java.util.Iterator<StudentEntry> itrRow = studentEntries.iterator();
+            java.util.Iterator<StudentEntry> itrRow     = studentEntries.iterator();
             while(itrRow.hasNext()) {
                     StudentEntry student 		= itrRow.next();
-                    CandidateAssignment cand 	= new CandidateAssignment(student);
+                    CandidateAssignment cand            = new CandidateAssignment(student);
 
                     if(noOfStdAssinedToProject.containsKey(cand.getAssignedProject().intern())) {
                             noOfStdAssinedToProject.put(cand.getAssignedProject().intern(), noOfStdAssinedToProject.get(cand.getAssignedProject().intern()) + 1);   
@@ -60,7 +58,7 @@ public class CandidateSolution {
 //                    System.out.println("project 			: "+ cand.getAssignedProject());
 //                    System.out.println("cand energy			: "+ cand.getEnergy());
 //                    System.out.println("sume of each energy upto now	: "+ energy);
-//                    System.out.println("sum of panelty upto now		: "+ panelty);
+//                    System.out.println("sum of panelty upto now	: "+ panelty);
 //                    System.out.println("");
             }		
     }
@@ -95,6 +93,28 @@ public class CandidateSolution {
         }
     }
     
+     public void updateSolution() {
+        assignments				= new Vector<CandidateAssignment>(); //reseting
+        noOfStdAssinedToProject 		= new Hashtable<String, Integer>(); //reseting
+        energy                                  = 0;
+        panelty                                 = 0;
+        
+        Set<String> keySet = candidateAssignmentsMap.keySet();
+        java.util.Iterator<String> it = keySet.iterator();
+        while(it.hasNext()){
+            String studentName = it.next();
+            CandidateAssignment cand = candidateAssignmentsMap.get(studentName);            
+            if(noOfStdAssinedToProject.containsKey(cand.getAssignedProject().intern())) {
+                    noOfStdAssinedToProject.put(cand.getAssignedProject().intern(), noOfStdAssinedToProject.get(cand.getAssignedProject().intern()) + 1);   
+                    panelty += paneltyConstant;
+            } else {
+                    noOfStdAssinedToProject.put(cand.getAssignedProject().intern(),1);
+            }
+            assignments.addElement(cand);
+            energy += cand.getEnergy();
+        }
+    }
+
     public CandidateAssignment getRandomAssignment() {
             int index = rnd.nextInt(candidateAssignmentsMap.size()) + 0;
             return assignments.get(index);
@@ -111,12 +131,21 @@ public class CandidateSolution {
     public int getFitness() {
             return (-1) * getEnergy();
     }
-    
+
     static public int getMaxFitness() {
         return maxFitness;
     }
-    
+
     public Hashtable<String, CandidateAssignment> getCandidateAssignmentsMap() {
         return this.candidateAssignmentsMap;
+    }
+
+    public CandidateAssignment getGene(String StudentName) {
+        return this.candidateAssignmentsMap.get(StudentName);
+    }
+
+    void setGene(String studentName, CandidateAssignment cand) {
+        candidateAssignmentsMap.put(studentName, cand);
+        updateSolution();
     }
 }

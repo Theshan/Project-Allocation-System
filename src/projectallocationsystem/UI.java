@@ -13,8 +13,16 @@ import javax.swing.JTable;
 import javax.swing.filechooser.FileNameExtensionFilter;
 import java.text.*;
 import java.awt.print.*;
+import java.io.BufferedReader;
+import java.io.IOException;
+import java.io.InputStreamReader;
+import java.io.PipedInputStream;
+import java.io.PipedOutputStream;
+import java.io.PrintStream;
 import java.util.Set;
 import java.util.Vector;
+import java.text.*;
+import java.awt.print.*;
 import javax.swing.JOptionPane;
 import javax.swing.JRootPane;
 import javax.swing.table.DefaultTableModel;
@@ -24,6 +32,10 @@ import javax.swing.table.DefaultTableModel;
  * @author danindu
  */
 public class UI extends javax.swing.JFrame {
+
+    private PipedInputStream pin;
+    private BufferedReader iis;
+    private PrintStream ps;
 
     /**
      * Creates new form UI
@@ -46,28 +58,25 @@ public class UI extends javax.swing.JFrame {
         txtpath = new javax.swing.JTextField();
         btnbrowse = new javax.swing.JButton();
         SA = new javax.swing.JTabbedPane();
-        jPanel3 = new javax.swing.JPanel();
+        solpanel = new javax.swing.JPanel();
         jLabel3 = new javax.swing.JLabel();
-        jTextField1 = new javax.swing.JTextField();
-        jPanel5 = new javax.swing.JPanel();
+        txtfitness = new javax.swing.JTextField();
         jScrollPane1 = new javax.swing.JScrollPane();
         jTable1 = new javax.swing.JTable();
         jPanel2 = new javax.swing.JPanel();
         jLabel1 = new javax.swing.JLabel();
-        Temp = new javax.swing.JTextField();
-        jLabel2 = new javax.swing.JLabel();
-        AnnealingSched = new javax.swing.JTextField();
-        jPanel4 = new javax.swing.JPanel();
+        txtenergy = new javax.swing.JTextField();
         jScrollPane2 = new javax.swing.JScrollPane();
         jTable2 = new javax.swing.JTable();
-        Report = new javax.swing.JPanel();
-        btnsave = new javax.swing.JButton();
-        jPanel6 = new javax.swing.JPanel();
         executeBtn = new javax.swing.JButton();
+        jScrollPane5 = new javax.swing.JScrollPane();
+        textArea1 = new java.awt.TextArea();
+        btnprint = new javax.swing.JButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         setTitle("Project Allocation System");
         setCursor(new java.awt.Cursor(java.awt.Cursor.DEFAULT_CURSOR));
+        setPreferredSize(new java.awt.Dimension(1100, 700));
         setResizable(false);
 
         txtpath.setEditable(false);
@@ -92,28 +101,18 @@ public class UI extends javax.swing.JFrame {
         SA.setFont(new java.awt.Font("Arial", 0, 13)); // NOI18N
 
         jLabel3.setFont(new java.awt.Font("Arial", 1, 14)); // NOI18N
-        jLabel3.setText("Population Size");
+        jLabel3.setText("Fitness of Final Solution");
         jLabel3.setPreferredSize(new java.awt.Dimension(72, 15));
 
-        jTextField1.setEditable(false);
-        jTextField1.setCursor(new java.awt.Cursor(java.awt.Cursor.DEFAULT_CURSOR));
-        jTextField1.setDisabledTextColor(new java.awt.Color(0, 0, 0));
-
-        jPanel5.setBackground(new java.awt.Color(255, 255, 255));
-
-        javax.swing.GroupLayout jPanel5Layout = new javax.swing.GroupLayout(jPanel5);
-        jPanel5.setLayout(jPanel5Layout);
-        jPanel5Layout.setHorizontalGroup(
-            jPanel5Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 0, Short.MAX_VALUE)
-        );
-        jPanel5Layout.setVerticalGroup(
-            jPanel5Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 219, Short.MAX_VALUE)
-        );
+        txtfitness.setEditable(false);
+        txtfitness.setCursor(new java.awt.Cursor(java.awt.Cursor.DEFAULT_CURSOR));
+        txtfitness.setDisabledTextColor(new java.awt.Color(0, 0, 0));
 
         jTable1.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
+                {null, null, null},
+                {null, null, null},
+                {null, null, null},
                 {null, null, null},
                 {null, null, null},
                 {null, null, null},
@@ -146,65 +145,47 @@ public class UI extends javax.swing.JFrame {
         jTable1.setFocusable(false);
         jScrollPane1.setViewportView(jTable1);
 
-        javax.swing.GroupLayout jPanel3Layout = new javax.swing.GroupLayout(jPanel3);
-        jPanel3.setLayout(jPanel3Layout);
-        jPanel3Layout.setHorizontalGroup(
-            jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(jPanel3Layout.createSequentialGroup()
-                .addGap(18, 18, 18)
-                .addComponent(jLabel3, javax.swing.GroupLayout.PREFERRED_SIZE, 172, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                .addComponent(jTextField1, javax.swing.GroupLayout.PREFERRED_SIZE, 93, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(285, Short.MAX_VALUE))
-            .addGroup(jPanel3Layout.createSequentialGroup()
+        javax.swing.GroupLayout solpanelLayout = new javax.swing.GroupLayout(solpanel);
+        solpanel.setLayout(solpanelLayout);
+        solpanelLayout.setHorizontalGroup(
+            solpanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, solpanelLayout.createSequentialGroup()
                 .addContainerGap()
-                .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(jPanel5, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .addComponent(jScrollPane1, javax.swing.GroupLayout.Alignment.TRAILING))
+                .addGroup(solpanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                    .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 871, Short.MAX_VALUE)
+                    .addGroup(javax.swing.GroupLayout.Alignment.LEADING, solpanelLayout.createSequentialGroup()
+                        .addComponent(jLabel3, javax.swing.GroupLayout.PREFERRED_SIZE, 172, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(83, 83, 83)
+                        .addComponent(txtfitness, javax.swing.GroupLayout.PREFERRED_SIZE, 93, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(0, 0, Short.MAX_VALUE)))
                 .addContainerGap())
         );
-        jPanel3Layout.setVerticalGroup(
-            jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(jPanel3Layout.createSequentialGroup()
+        solpanelLayout.setVerticalGroup(
+            solpanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(solpanelLayout.createSequentialGroup()
                 .addGap(21, 21, 21)
-                .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                .addGroup(solpanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel3, javax.swing.GroupLayout.PREFERRED_SIZE, 25, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(jTextField1, javax.swing.GroupLayout.PREFERRED_SIZE, 25, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addGap(36, 36, 36)
-                .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 169, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(34, 34, 34)
-                .addComponent(jPanel5, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(24, Short.MAX_VALUE))
+                    .addComponent(txtfitness, javax.swing.GroupLayout.PREFERRED_SIZE, 25, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addGap(18, 18, 18)
+                .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 203, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addContainerGap(49, Short.MAX_VALUE))
         );
 
-        SA.addTab("Genetic Algorithm", jPanel3);
+        SA.addTab("Genetic Algorithm", solpanel);
 
         jLabel1.setFont(new java.awt.Font("Arial", 1, 14)); // NOI18N
-        jLabel1.setText("Temperature");
+        jLabel1.setText("Energy of Final Solution");
 
-        Temp.setEditable(false);
-
-        jLabel2.setFont(new java.awt.Font("Arial", 1, 14)); // NOI18N
-        jLabel2.setText("Annealing Schedule");
-        jLabel2.setPreferredSize(new java.awt.Dimension(72, 15));
-
-        AnnealingSched.setEditable(false);
-
-        jPanel4.setBackground(new java.awt.Color(255, 255, 255));
-
-        javax.swing.GroupLayout jPanel4Layout = new javax.swing.GroupLayout(jPanel4);
-        jPanel4.setLayout(jPanel4Layout);
-        jPanel4Layout.setHorizontalGroup(
-            jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 0, Short.MAX_VALUE)
-        );
-        jPanel4Layout.setVerticalGroup(
-            jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 179, Short.MAX_VALUE)
-        );
+        txtenergy.setEditable(false);
 
         jTable2.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
+                {null, null, null},
+                {null, null, null},
+                {null, null, null},
+                {null, null, null},
+                {null, null, null},
                 {null, null, null},
                 {null, null, null},
                 {null, null, null},
@@ -243,17 +224,12 @@ public class UI extends javax.swing.JFrame {
             .addGroup(jPanel2Layout.createSequentialGroup()
                 .addContainerGap()
                 .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(jScrollPane2, javax.swing.GroupLayout.DEFAULT_SIZE, 558, Short.MAX_VALUE)
+                    .addComponent(jScrollPane2, javax.swing.GroupLayout.DEFAULT_SIZE, 871, Short.MAX_VALUE)
                     .addGroup(jPanel2Layout.createSequentialGroup()
-                        .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                            .addComponent(jLabel1, javax.swing.GroupLayout.DEFAULT_SIZE, 253, Short.MAX_VALUE)
-                            .addComponent(jLabel2, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-                        .addGap(10, 10, 10)
-                        .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                            .addComponent(Temp)
-                            .addComponent(AnnealingSched, javax.swing.GroupLayout.DEFAULT_SIZE, 100, Short.MAX_VALUE))
-                        .addGap(0, 0, Short.MAX_VALUE))
-                    .addComponent(jPanel4, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                        .addComponent(jLabel1, javax.swing.GroupLayout.PREFERRED_SIZE, 253, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(txtenergy, javax.swing.GroupLayout.PREFERRED_SIZE, 100, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(0, 0, Short.MAX_VALUE)))
                 .addContainerGap())
         );
         jPanel2Layout.setVerticalGroup(
@@ -262,61 +238,13 @@ public class UI extends javax.swing.JFrame {
                 .addGap(24, 24, 24)
                 .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel1, javax.swing.GroupLayout.PREFERRED_SIZE, 28, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(Temp, javax.swing.GroupLayout.PREFERRED_SIZE, 28, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addComponent(txtenergy, javax.swing.GroupLayout.PREFERRED_SIZE, 28, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addGap(18, 18, 18)
-                .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(jLabel2, javax.swing.GroupLayout.PREFERRED_SIZE, 26, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(AnnealingSched, javax.swing.GroupLayout.PREFERRED_SIZE, 26, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addGap(24, 24, 24)
-                .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 170, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(18, 18, 18)
-                .addComponent(jPanel4, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(40, Short.MAX_VALUE))
+                .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 221, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
 
         SA.addTab("Simulated Annealing", jPanel2);
-
-        btnsave.setFont(new java.awt.Font("Arial", 1, 13)); // NOI18N
-        btnsave.setText("Save As..");
-        btnsave.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                btnsaveActionPerformed(evt);
-            }
-        });
-
-        javax.swing.GroupLayout jPanel6Layout = new javax.swing.GroupLayout(jPanel6);
-        jPanel6.setLayout(jPanel6Layout);
-        jPanel6Layout.setHorizontalGroup(
-            jPanel6Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 478, Short.MAX_VALUE)
-        );
-        jPanel6Layout.setVerticalGroup(
-            jPanel6Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 389, Short.MAX_VALUE)
-        );
-
-        javax.swing.GroupLayout ReportLayout = new javax.swing.GroupLayout(Report);
-        Report.setLayout(ReportLayout);
-        ReportLayout.setHorizontalGroup(
-            ReportLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(ReportLayout.createSequentialGroup()
-                .addContainerGap()
-                .addGroup(ReportLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                    .addComponent(jPanel6, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(btnsave))
-                .addGap(0, 90, Short.MAX_VALUE))
-        );
-        ReportLayout.setVerticalGroup(
-            ReportLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, ReportLayout.createSequentialGroup()
-                .addContainerGap()
-                .addComponent(jPanel6, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(18, 18, 18)
-                .addComponent(btnsave, javax.swing.GroupLayout.PREFERRED_SIZE, 32, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(79, Short.MAX_VALUE))
-        );
-
-        SA.addTab("Report Generation", Report);
 
         executeBtn.setFont(new java.awt.Font("Arial", 1, 13)); // NOI18N
         executeBtn.setText("Execute");
@@ -324,6 +252,16 @@ public class UI extends javax.swing.JFrame {
         executeBtn.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 executeBtnActionPerformed(evt);
+            }
+        });
+
+        jScrollPane5.setViewportView(textArea1);
+
+        btnprint.setFont(new java.awt.Font("Arial", 1, 13)); // NOI18N
+        btnprint.setText("Print Report");
+        btnprint.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnprintActionPerformed(evt);
             }
         });
 
@@ -341,7 +279,10 @@ public class UI extends javax.swing.JFrame {
                         .addComponent(btnbrowse, javax.swing.GroupLayout.PREFERRED_SIZE, 88, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addComponent(executeBtn, javax.swing.GroupLayout.PREFERRED_SIZE, 83, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGap(0, 0, Short.MAX_VALUE)))
+                        .addGap(18, 18, 18)
+                        .addComponent(btnprint)
+                        .addGap(0, 0, Short.MAX_VALUE))
+                    .addComponent(jScrollPane5, javax.swing.GroupLayout.Alignment.TRAILING))
                 .addContainerGap())
         );
         jPanel1Layout.setVerticalGroup(
@@ -351,10 +292,13 @@ public class UI extends javax.swing.JFrame {
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
                     .addComponent(txtpath, javax.swing.GroupLayout.PREFERRED_SIZE, 29, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(btnbrowse, javax.swing.GroupLayout.DEFAULT_SIZE, 30, Short.MAX_VALUE)
-                    .addComponent(executeBtn, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                .addComponent(SA, javax.swing.GroupLayout.PREFERRED_SIZE, 558, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(0, 0, 0))
+                    .addComponent(executeBtn, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addComponent(btnprint, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 11, Short.MAX_VALUE)
+                .addComponent(SA, javax.swing.GroupLayout.PREFERRED_SIZE, 346, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(18, 18, 18)
+                .addComponent(jScrollPane5, javax.swing.GroupLayout.PREFERRED_SIZE, 204, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addContainerGap())
         );
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
@@ -363,8 +307,7 @@ public class UI extends javax.swing.JFrame {
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
                 .addContainerGap()
-                .addComponent(jPanel1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                .addContainerGap())
+                .addComponent(jPanel1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -392,49 +335,146 @@ public class UI extends javax.swing.JFrame {
         txtpath.setText(path);
     }//GEN-LAST:event_btnbrowseActionPerformed
 
-    private void btnsaveActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnsaveActionPerformed
-        
-        
-    }//GEN-LAST:event_btnsaveActionPerformed
-
+    private void setLogPane() {
+        //Create a pair of Piped Streams.
+        pin = new PipedInputStream();
+        PipedOutputStream pout;
+        try {
+            pout = new PipedOutputStream(this.pin);
+            iis = new BufferedReader(new InputStreamReader(pin));
+            ps = new PrintStream(pout, true);
+            System.setOut(ps);
+        } catch (IOException e) {
+            JOptionPane.showMessageDialog(null,
+                    "*** Input or Output error ***\n" + e, "Error",
+                    JOptionPane.ERROR_MESSAGE);
+            e.printStackTrace();
+        }
+  
+        //Construct and start a Thread to copy data from "is" to "os".
+        new Thread() {
+            public void run() {
+                try {
+                    String line;
+                    while ((line = iis.readLine()) != null) {
+                        textArea1.append(line);
+                        textArea1.append("\n");
+                    }
+                } catch (IOException ex) {
+                    JOptionPane.showMessageDialog(null,
+                            "*** Input or Output error ***\n" + ex, "Error",
+                            JOptionPane.ERROR_MESSAGE);
+                }
+            }
+        }.start();
+    }
+    
     private void executeBtnActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_executeBtnActionPerformed
         if (path != "") {
+            setLogPane();
             String filename                             = path;
             PreferenceTable preferenceTable             = new PreferenceTable(filename);
             preferenceTable.fillPreferencesOfAll(10);
+            
+            
+            // Do Anealing with Simulated Anealing
             CandidateSolution solInstance               = new CandidateSolution(preferenceTable);
             SimulatedAnnealing saInstance               = new SimulatedAnnealing(solInstance);
             CandidateSolution saSol                     = saInstance.getModifiedBestSolution();
-            Vector<Vector<String>> dataSet = new Vector<Vector<String>>();
+            Vector<Vector<String>> saDataSet = new Vector<Vector<String>>();
 
-            Set<String> keySet = saSol.getCandidateAssignmentsMap().keySet();
-            java.util.Iterator<String> it = keySet.iterator();
-            while(it.hasNext()){
-                String studentName = it.next();
+            Set<String> saSolKeySet = saSol.getCandidateAssignmentsMap().keySet();
+            java.util.Iterator<String> saSolIterator = saSolKeySet.iterator();
+            while(saSolIterator.hasNext()){
+                String studentName = saSolIterator.next();
                 CandidateAssignment cand = saSol.getCandidateAssignmentsMap().get(studentName);
                 
                 String assignedProject  = cand.getAssignedProject();
-                int ranking             = cand.getStudentEntry().getRanking(assignedProject);
-                String rankingToString  = Integer.toString(ranking);
+                int ranking             = cand.getStudentEntry().getRanking(assignedProject) + 1;
+               // String rankingToString  = Integer.toString(ranking);
                 Vector<String> rowDataSet      = new Vector<String>();
                 rowDataSet.add(studentName);
                 rowDataSet.add(assignedProject);
-                rowDataSet.add(rankingToString);
-                dataSet.add(rowDataSet);
+                if(ranking == 0 || ranking >= cand.getStudentEntry().getNumberOfPreferencedProjects()){
+                    if (cand.getStudentEntry().hasPreassignedProject()) {
+                        String rankingToString = " Pre-assigned project" ;
+                        rowDataSet.add(rankingToString);
+                    } else {
+                        String rankingToString = " Project not in the preference list" ;
+                        rowDataSet.add(rankingToString);
+                    }
+                } else {
+                    rowDataSet.add(" Project : " + Integer.toString(ranking));
+                }
+                //rowDataSet.add(rankingToString);
+                saDataSet.add(rowDataSet);
             }
 
             Vector<String> columnNameDataSet    = new Vector<String>();
             columnNameDataSet.add("Student Name");
             columnNameDataSet.add("Assigned Project");
-            columnNameDataSet.add("Rank Evaluation");
+            columnNameDataSet.add("Rank in project list");
 
-            DefaultTableModel model = new DefaultTableModel(dataSet, columnNameDataSet);
-            jTable2.setModel(model);
+            DefaultTableModel saTableDataModel = new DefaultTableModel(saDataSet, columnNameDataSet);
+            jTable2.setModel(saTableDataModel);
+            
+            
+            
+            //Do anealing with Genetic Algorithm
+            GeneticAlgorithm gaSolution                 = new GeneticAlgorithm(10, preferenceTable);
+            CandidateSolution gaSol                     = gaSolution.getFittestSolution();
+            Vector<Vector<String>> gaDataSet            = new Vector<Vector<String>>();
+
+            Set<String> gaSolKeySet = gaSol.getCandidateAssignmentsMap().keySet();
+            java.util.Iterator<String> gaSolIterator = gaSolKeySet.iterator();
+            while(gaSolIterator.hasNext()){
+                String studentName = gaSolIterator.next();
+                CandidateAssignment cand = gaSol.getCandidateAssignmentsMap().get(studentName);
+                
+                
+                String assignedProject  = cand.getAssignedProject();
+                int ranking             = cand.getStudentEntry().getRanking(assignedProject) + 1;
+               // String rankingToString  = Integer.toString(ranking);
+                Vector<String> rowDataSet      = new Vector<String>();
+                rowDataSet.add(studentName);
+                rowDataSet.add(assignedProject);
+                if(ranking == 0 || ranking >= cand.getStudentEntry().getNumberOfPreferencedProjects()){
+                    if (cand.getStudentEntry().hasPreassignedProject()) {
+                        String rankingToString = " Pre-assigned project" ;
+                        rowDataSet.add(rankingToString);
+                    } else {
+                        String rankingToString = " Project not in the preference list" ;
+                        rowDataSet.add(rankingToString);
+                    }
+                } else {
+                    rowDataSet.add(" Project : " + Integer.toString(ranking));
+                }
+                //rowDataSet.add(rankingToString);
+                gaDataSet.add(rowDataSet);
+            }
+
+            DefaultTableModel gaTableDataModel = new DefaultTableModel(gaDataSet, columnNameDataSet);
+            jTable1.setModel(gaTableDataModel);
+            
+            txtfitness.setText((Integer.toString(saSol.getFitness())));
+           txtenergy.setText(Integer.toString(gaSol.getEnergy()));
+          
         } else {
             JOptionPane.showMessageDialog(rootPane, "tsv file not found","Error",
     JOptionPane.ERROR_MESSAGE);
         }
     }//GEN-LAST:event_executeBtnActionPerformed
+
+    private void btnprintActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnprintActionPerformed
+        MessageFormat header = new MessageFormat("Project Allocation System Report");
+                try {
+//                    txtfitness.print(txtfitness.Print)
+                    jTable1.print(JTable.PrintMode.FIT_WIDTH, header, header);
+                    jTable2.print(JTable.PrintMode.FIT_WIDTH, header, header);
+                   
+        } catch (Exception e) {
+        }
+    }//GEN-LAST:event_btnprintActionPerformed
 
     /**
      * @param args the command line arguments
@@ -478,27 +518,24 @@ public class UI extends javax.swing.JFrame {
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
-    private javax.swing.JTextField AnnealingSched;
-    private javax.swing.JPanel Report;
     private javax.swing.JTabbedPane SA;
-    private javax.swing.JTextField Temp;
     private javax.swing.JButton btnbrowse;
-    private javax.swing.JButton btnsave;
+    private javax.swing.JButton btnprint;
     private javax.swing.JButton executeBtn;
     private javax.swing.JLabel jLabel1;
-    private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel3;
     private javax.swing.JPanel jPanel1;
     private javax.swing.JPanel jPanel2;
-    private javax.swing.JPanel jPanel3;
-    private javax.swing.JPanel jPanel4;
-    private javax.swing.JPanel jPanel5;
-    private javax.swing.JPanel jPanel6;
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JScrollPane jScrollPane2;
+    private javax.swing.JScrollPane jScrollPane3;
+    private javax.swing.JScrollPane jScrollPane5;
     private javax.swing.JTable jTable1;
     private javax.swing.JTable jTable2;
-    private javax.swing.JTextField jTextField1;
+    private javax.swing.JPanel solpanel;
+    private java.awt.TextArea textArea1;
+    private javax.swing.JTextField txtenergy;
+    private javax.swing.JTextField txtfitness;
     private javax.swing.JTextField txtpath;
     // End of variables declaration//GEN-END:variables
 }

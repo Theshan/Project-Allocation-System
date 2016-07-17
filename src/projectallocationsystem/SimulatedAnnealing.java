@@ -11,24 +11,26 @@ package projectallocationsystem;
  */
 public class SimulatedAnnealing {
     private CandidateSolution currentSolution;
-    private double temperature = 25;
+    private double temperature = 2;
     private double coolingTemperature = 1;
     private int startingEnergy;
+    private CandidateSolution bestSoluteion;
     
     public SimulatedAnnealing(CandidateSolution cand){
         this.currentSolution = cand;
+        this.bestSoluteion = cand;
         doAnealing();
     }
     
     public CandidateSolution getModifiedBestSolution() {
-        return this.currentSolution;
+        return this.bestSoluteion;
     }
     
     private void doAnealing() {
         startingEnergy = currentSolution.getEnergy();
         System.out.println("");
         
-        CandidateSolution bestSoluteion = new CandidateSolution(currentSolution);
+        bestSoluteion = new CandidateSolution(currentSolution);
         
         while(temperature > 0) {
             System.out.println("temperature                 :" + temperature);
