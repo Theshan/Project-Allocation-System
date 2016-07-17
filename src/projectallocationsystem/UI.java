@@ -9,7 +9,6 @@ import java.awt.Desktop;
 import java.io.File;
 import java.text.MessageFormat;
 import javax.swing.JFileChooser;
-import javax.swing.JTable;
 import javax.swing.filechooser.FileNameExtensionFilter;
 import java.text.*;
 import java.awt.print.*;
@@ -25,11 +24,12 @@ import java.text.*;
 import java.awt.print.*;
 import javax.swing.JOptionPane;
 import javax.swing.JRootPane;
+import javax.swing.JTable;
 import javax.swing.table.DefaultTableModel;
 
 /**
  *
- * @author danindu
+ * @author Olympians
  */
 public class UI extends javax.swing.JFrame {
 
@@ -57,15 +57,15 @@ public class UI extends javax.swing.JFrame {
         jPanel1 = new javax.swing.JPanel();
         txtpath = new javax.swing.JTextField();
         btnbrowse = new javax.swing.JButton();
-        SA = new javax.swing.JTabbedPane();
+        TPane = new javax.swing.JTabbedPane();
         solpanel = new javax.swing.JPanel();
         jLabel3 = new javax.swing.JLabel();
-        txtfitness = new javax.swing.JTextField();
+        fitnessTxt = new javax.swing.JTextField();
         jScrollPane1 = new javax.swing.JScrollPane();
         jTable1 = new javax.swing.JTable();
         jPanel2 = new javax.swing.JPanel();
         jLabel1 = new javax.swing.JLabel();
-        txtenergy = new javax.swing.JTextField();
+        energyTxt = new javax.swing.JTextField();
         jScrollPane2 = new javax.swing.JScrollPane();
         jTable2 = new javax.swing.JTable();
         executeBtn = new javax.swing.JButton();
@@ -97,16 +97,16 @@ public class UI extends javax.swing.JFrame {
             }
         });
 
-        SA.setAutoscrolls(true);
-        SA.setFont(new java.awt.Font("Arial", 0, 13)); // NOI18N
+        TPane.setAutoscrolls(true);
+        TPane.setFont(new java.awt.Font("Arial", 0, 13)); // NOI18N
 
         jLabel3.setFont(new java.awt.Font("Arial", 1, 14)); // NOI18N
         jLabel3.setText("Fitness of Final Solution");
         jLabel3.setPreferredSize(new java.awt.Dimension(72, 15));
 
-        txtfitness.setEditable(false);
-        txtfitness.setCursor(new java.awt.Cursor(java.awt.Cursor.DEFAULT_CURSOR));
-        txtfitness.setDisabledTextColor(new java.awt.Color(0, 0, 0));
+        fitnessTxt.setEditable(false);
+        fitnessTxt.setCursor(new java.awt.Cursor(java.awt.Cursor.DEFAULT_CURSOR));
+        fitnessTxt.setDisabledTextColor(new java.awt.Color(0, 0, 0));
 
         jTable1.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
@@ -131,7 +131,7 @@ public class UI extends javax.swing.JFrame {
                 java.lang.String.class, java.lang.String.class, java.lang.Integer.class
             };
             boolean[] canEdit = new boolean [] {
-                false, false, true
+                false, false, false
             };
 
             public Class getColumnClass(int columnIndex) {
@@ -144,6 +144,9 @@ public class UI extends javax.swing.JFrame {
         });
         jTable1.setFocusable(false);
         jScrollPane1.setViewportView(jTable1);
+        if (jTable1.getColumnModel().getColumnCount() > 0) {
+            jTable1.getColumnModel().getColumn(0).setResizable(false);
+        }
 
         javax.swing.GroupLayout solpanelLayout = new javax.swing.GroupLayout(solpanel);
         solpanel.setLayout(solpanelLayout);
@@ -156,7 +159,7 @@ public class UI extends javax.swing.JFrame {
                     .addGroup(javax.swing.GroupLayout.Alignment.LEADING, solpanelLayout.createSequentialGroup()
                         .addComponent(jLabel3, javax.swing.GroupLayout.PREFERRED_SIZE, 172, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addGap(83, 83, 83)
-                        .addComponent(txtfitness, javax.swing.GroupLayout.PREFERRED_SIZE, 93, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addComponent(fitnessTxt, javax.swing.GroupLayout.PREFERRED_SIZE, 93, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addGap(0, 0, Short.MAX_VALUE)))
                 .addContainerGap())
         );
@@ -166,18 +169,18 @@ public class UI extends javax.swing.JFrame {
                 .addGap(21, 21, 21)
                 .addGroup(solpanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel3, javax.swing.GroupLayout.PREFERRED_SIZE, 25, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(txtfitness, javax.swing.GroupLayout.PREFERRED_SIZE, 25, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addComponent(fitnessTxt, javax.swing.GroupLayout.PREFERRED_SIZE, 25, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addGap(18, 18, 18)
                 .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 203, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addContainerGap(49, Short.MAX_VALUE))
         );
 
-        SA.addTab("Genetic Algorithm", solpanel);
+        TPane.addTab("Genetic Algorithm", solpanel);
 
         jLabel1.setFont(new java.awt.Font("Arial", 1, 14)); // NOI18N
         jLabel1.setText("Energy of Final Solution");
 
-        txtenergy.setEditable(false);
+        energyTxt.setEditable(false);
 
         jTable2.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
@@ -215,7 +218,12 @@ public class UI extends javax.swing.JFrame {
                 return canEdit [columnIndex];
             }
         });
+        jTable2.setMaximumSize(new java.awt.Dimension(2147483647, 192));
+        jTable2.setMinimumSize(new java.awt.Dimension(45, 192));
         jScrollPane2.setViewportView(jTable2);
+        if (jTable2.getColumnModel().getColumnCount() > 0) {
+            jTable2.getColumnModel().getColumn(0).setResizable(false);
+        }
 
         javax.swing.GroupLayout jPanel2Layout = new javax.swing.GroupLayout(jPanel2);
         jPanel2.setLayout(jPanel2Layout);
@@ -228,7 +236,7 @@ public class UI extends javax.swing.JFrame {
                     .addGroup(jPanel2Layout.createSequentialGroup()
                         .addComponent(jLabel1, javax.swing.GroupLayout.PREFERRED_SIZE, 253, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(txtenergy, javax.swing.GroupLayout.PREFERRED_SIZE, 100, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addComponent(energyTxt, javax.swing.GroupLayout.PREFERRED_SIZE, 100, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addGap(0, 0, Short.MAX_VALUE)))
                 .addContainerGap())
         );
@@ -238,13 +246,13 @@ public class UI extends javax.swing.JFrame {
                 .addGap(24, 24, 24)
                 .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel1, javax.swing.GroupLayout.PREFERRED_SIZE, 28, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(txtenergy, javax.swing.GroupLayout.PREFERRED_SIZE, 28, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addComponent(energyTxt, javax.swing.GroupLayout.PREFERRED_SIZE, 28, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addGap(18, 18, 18)
                 .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 221, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
 
-        SA.addTab("Simulated Annealing", jPanel2);
+        TPane.addTab("Simulated Annealing", jPanel2);
 
         executeBtn.setFont(new java.awt.Font("Arial", 1, 13)); // NOI18N
         executeBtn.setText("Execute");
@@ -272,7 +280,7 @@ public class UI extends javax.swing.JFrame {
             .addGroup(jPanel1Layout.createSequentialGroup()
                 .addContainerGap()
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(SA)
+                    .addComponent(TPane)
                     .addGroup(jPanel1Layout.createSequentialGroup()
                         .addComponent(txtpath, javax.swing.GroupLayout.PREFERRED_SIZE, 373, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
@@ -295,7 +303,7 @@ public class UI extends javax.swing.JFrame {
                     .addComponent(executeBtn, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                     .addComponent(btnprint, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 11, Short.MAX_VALUE)
-                .addComponent(SA, javax.swing.GroupLayout.PREFERRED_SIZE, 346, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addComponent(TPane, javax.swing.GroupLayout.PREFERRED_SIZE, 346, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(18, 18, 18)
                 .addComponent(jScrollPane5, javax.swing.GroupLayout.PREFERRED_SIZE, 204, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addContainerGap())
@@ -326,13 +334,21 @@ public class UI extends javax.swing.JFrame {
     }//GEN-LAST:event_txtpathActionPerformed
 
     private void btnbrowseActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnbrowseActionPerformed
-       JFileChooser fc = new JFileChooser();
+        try {
+            JFileChooser fc = new JFileChooser();
         FileNameExtensionFilter filter = new FileNameExtensionFilter("tsv files", "tsv");
         fc.setFileFilter(filter);
         fc.showOpenDialog(null);
         File file = fc.getSelectedFile();
+//        if (file == null){
+//            JOptionPane.showMessageDialog(rootPane, "File Is Empty","Error",
+//    JOptionPane.ERROR_MESSAGE);
+//        }
         path = file.getAbsolutePath();
         txtpath.setText(path);
+        } catch (Exception e) {
+            System.out.println("Browse Canceled by User");
+        }
     }//GEN-LAST:event_btnbrowseActionPerformed
 
     private void setLogPane() {
@@ -456,8 +472,8 @@ public class UI extends javax.swing.JFrame {
             DefaultTableModel gaTableDataModel = new DefaultTableModel(gaDataSet, columnNameDataSet);
             jTable1.setModel(gaTableDataModel);
             
-            txtfitness.setText((Integer.toString(saSol.getFitness())));
-           txtenergy.setText(Integer.toString(gaSol.getEnergy()));
+            fitnessTxt.setText((Integer.toString(gaSol.getFitness())));
+            energyTxt.setText(Integer.toString(saSol.getEnergy()));
           
         } else {
             JOptionPane.showMessageDialog(rootPane, "tsv file not found","Error",
@@ -466,11 +482,22 @@ public class UI extends javax.swing.JFrame {
     }//GEN-LAST:event_executeBtnActionPerformed
 
     private void btnprintActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnprintActionPerformed
-        MessageFormat header = new MessageFormat("Project Allocation System Report");
+         MessageFormat gaHeader = new MessageFormat("Genetic Algorithm Report - Final Fitness: "+ fitnessTxt.getText());
+         MessageFormat gaFooter = new MessageFormat("Genetic Algorithm");
+         MessageFormat saHeader = new MessageFormat("Simulated Annealing Report - Final Energy: "+ energyTxt.getText());
+         MessageFormat saFooter = new MessageFormat("Simulated Annealing");
+        
                 try {
-//                    txtfitness.print(txtfitness.Print)
-                    jTable1.print(JTable.PrintMode.FIT_WIDTH, header, header);
-                    jTable2.print(JTable.PrintMode.FIT_WIDTH, header, header);
+                  if(path != ""){
+                      TPane.setSelectedIndex(1);
+                      jTable1.print(JTable.PrintMode.FIT_WIDTH,gaHeader,gaFooter);
+                      jTable2.print(JTable.PrintMode.FIT_WIDTH,saHeader,saFooter);
+                      
+                                                    
+                  }else {
+                       JOptionPane.showMessageDialog(rootPane, "tsv file not found","Error",
+    JOptionPane.ERROR_MESSAGE);
+                  }
                    
         } catch (Exception e) {
         }
@@ -518,24 +545,23 @@ public class UI extends javax.swing.JFrame {
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
-    private javax.swing.JTabbedPane SA;
+    private javax.swing.JTabbedPane TPane;
     private javax.swing.JButton btnbrowse;
     private javax.swing.JButton btnprint;
+    private javax.swing.JTextField energyTxt;
     private javax.swing.JButton executeBtn;
+    private javax.swing.JTextField fitnessTxt;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel3;
     private javax.swing.JPanel jPanel1;
     private javax.swing.JPanel jPanel2;
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JScrollPane jScrollPane2;
-    private javax.swing.JScrollPane jScrollPane3;
     private javax.swing.JScrollPane jScrollPane5;
     private javax.swing.JTable jTable1;
     private javax.swing.JTable jTable2;
     private javax.swing.JPanel solpanel;
     private java.awt.TextArea textArea1;
-    private javax.swing.JTextField txtenergy;
-    private javax.swing.JTextField txtfitness;
     private javax.swing.JTextField txtpath;
     // End of variables declaration//GEN-END:variables
 }
