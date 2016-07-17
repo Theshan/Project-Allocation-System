@@ -10,7 +10,7 @@ import java.util.Vector;
 
 /**
  *
- * @author Nadeesha
+ * @author Olympians
  */
 public class StudentEntry {
     private String studentName;
@@ -35,15 +35,15 @@ public class StudentEntry {
 	}
 	
 	void addPreassignedProject(String pName){
-		this.preAssignedProject     = pName;
-		this.preferredProjecsCount  = 0;
-		this.preAssigned            = true;
+		this.preAssignedProject             = pName;
+		this.preferredProjecsCount          = 0;
+		this.preAssigned                    = true;
 	}
 	
 	void addPreferedProjects(Vector<String> projects){
-		this.preferredProjects      = projects;
-		this.preferredProjecsCount  = projects.size();
-		this.preAssigned            = false;
+		this.preferredProjects              = projects;
+		this.preferredProjecsCount          = projects.size();
+		this.preAssigned                    = false;
 	}
 	
 	Boolean hasPreassignedProject() {
@@ -61,10 +61,10 @@ public class StudentEntry {
 	}
 	
 	public String getRandomPreference() {
-		int preferenceCount 		= preferredProjects.size();
+		int preferenceCount                 = preferredProjects.size();
 		if (preferenceCount > 0) {
-			int index 		= rnd.nextInt(preferenceCount) + 0;
-			String randomProject 	= preferredProjects.elementAt(index).intern();
+			int index                   = rnd.nextInt(preferenceCount) + 0;
+			String randomProject        = preferredProjects.elementAt(index).intern();
 			return randomProject;
 		} else if(preAssigned) {
                     return preAssignedProject;

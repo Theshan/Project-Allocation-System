@@ -7,7 +7,7 @@ package projectallocationsystem;
 
 /**
  *
- * @author Nadeesha
+ * @author Olympians
  */
 public class ProjectAllocationSystem {
 
@@ -16,14 +16,14 @@ public class ProjectAllocationSystem {
      */
     public static void main(String[] args) {
         String filename                             = "src/projectallocationsystem/projectAllocationData.tsv";
+        
         PreferenceTable preferenceTable             = new PreferenceTable(filename);
         preferenceTable.fillPreferencesOfAll(10);
-
+        
         CandidateSolution sol                       = new CandidateSolution(preferenceTable);
         
         SimulatedAnnealing annealedSolution         = new SimulatedAnnealing(sol);
 
-        
         GeneticAlgorithm gaSolution                 = new GeneticAlgorithm(2, preferenceTable);
 
         Report report                               = new Report(annealedSolution, gaSolution);

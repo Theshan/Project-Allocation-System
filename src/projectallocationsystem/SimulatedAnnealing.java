@@ -7,18 +7,18 @@ package projectallocationsystem;
 
 /**
  *
- * @author adventure-ro
+ * @author Olympians
  */
 public class SimulatedAnnealing {
     private CandidateSolution currentSolution;
-    private double temperature = 2;
-    private double coolingTemperature = 1;
+    private double temperature          = 2;
+    private double coolingTemperature   = 1;
     private int startingEnergy;
     private CandidateSolution bestSoluteion;
     
     public SimulatedAnnealing(CandidateSolution cand){
-        this.currentSolution = cand;
-        this.bestSoluteion = cand;
+        this.currentSolution            = cand;
+        this.bestSoluteion              = cand;
         doAnealing();
     }
     
@@ -27,56 +27,53 @@ public class SimulatedAnnealing {
     }
     
     private void doAnealing() {
-        startingEnergy = currentSolution.getEnergy();
-        System.out.println("");
-        
+        startingEnergy              = currentSolution.getEnergy();
+        System.out.println("====================================== Simulated Annealing Execution ======================================");
         bestSoluteion = new CandidateSolution(currentSolution);
         
         while(temperature > 0) {
-            System.out.println("temperature                 :" + temperature);
-            
-            CandidateSolution newBetterSolution = new CandidateSolution(currentSolution);     //go and see the method. you have to fill it
+            CandidateSolution newBetterSolution = new CandidateSolution(currentSolution);
             newBetterSolution.updateToBetterSolution();
             
-            int currentEnergy   = currentSolution.getEnergy();
-            int newEnergy       = newBetterSolution.getEnergy();
+            int currentEnergy       = currentSolution.getEnergy();
+            int newEnergy           = newBetterSolution.getEnergy();
             
-            System.out.println("currentEnergy at start      :" + currentEnergy);
-            System.out.println("newEnergy                   :" + newEnergy);
+//            System.out.println("currentEnergy at start      :" + currentEnergy);
+//            System.out.println("newEnergy                   :" + newEnergy);
             
             boolean newSolAcceptedAsCurrentSol = false;
             double acceptanceProb   = getAccepProbability(currentEnergy, newEnergy, temperature);
             double mathRand         = Math.random();
-            System.out.println("acceptanceProb              :" + acceptanceProb);
-            System.out.println("mathRand                    :" + mathRand);
-            // Decide if we should accept the neighbour
+            
+//            System.out.println("acceptanceProb              :" + acceptanceProb);
+//            System.out.println("mathRand                    :" + mathRand);
+            
+            // Decide if we should accept the newBetterSolutions
             if (acceptanceProb > mathRand) {
-                currentSolution = new CandidateSolution(newBetterSolution);
-                newSolAcceptedAsCurrentSol = true;
+                currentSolution             = new CandidateSolution(newBetterSolution);
+                newSolAcceptedAsCurrentSol  = true;
             }
             
-            currentEnergy   = currentSolution.getEnergy();
-            System.out.println("newSolAcceptedAsCurrentSol  :" + newSolAcceptedAsCurrentSol);
-            System.out.println("currentEnergy after newSol  :" + currentEnergy);
-            System.out.println("");
+            currentEnergy                   = currentSolution.getEnergy();
+//            System.out.println("newSolAcceptedAsCurrentSol  :" + newSolAcceptedAsCurrentSol);
+//            System.out.println("currentEnergy after newSol  :" + currentEnergy);
             
             boolean currentSolAcceptedAsBestSol = false;
-            System.out.println("bestSoluteion at start      :" + bestSoluteion.getEnergy());
-            if (currentSolution.getEnergy() < bestSoluteion.hashCode()) { // i don't know whether this condition is correct or wrong. let's put it that way just for now.
+//            System.out.println("bestSoluteion at start      :" + bestSoluteion.getEnergy());
+            if (currentSolution.getEnergy() < bestSoluteion.hashCode()) {
                 bestSoluteion = new CandidateSolution(currentSolution);
                 currentSolAcceptedAsBestSol = true;
             }
 
-            System.out.println("currentSolAcceptedAsBestSol :" + currentSolAcceptedAsBestSol);
-            System.out.println("bestSoluteion at after      :" + bestSoluteion.getEnergy());
-            System.out.println("");
-            System.out.println("");
-            System.out.println("");
+//            System.out.println("currentSolAcceptedAsBestSol :" + currentSolAcceptedAsBestSol);
+            System.out.println("Temperature : " + temperature + ", Energy :" + bestSoluteion.getEnergy());
             
             temperature -= coolingTemperature;
         }
-        System.out.println("startingEnergy  : " + startingEnergy);
-        System.out.println("bestEnergy      : " + bestSoluteion.getEnergy());
+        System.out.println("");
+        System.out.println("Starting Energy  : " + startingEnergy);
+        System.out.println("Best Energy      : " + bestSoluteion.getEnergy());
+        System.out.println("");
     }
     
     public double getAccepProbability(int energy, int newEnergy, double currentTemperature) {

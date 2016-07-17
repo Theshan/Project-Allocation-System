@@ -7,7 +7,7 @@ package projectallocationsystem;
 
 /**
  *
- * @author Nadeesha
+ * @author Olympians
  */
 public class CandidateAssignment {
     private StudentEntry student;
@@ -35,38 +35,31 @@ public class CandidateAssignment {
 	}
 	
 	public void randomizeAssignment() {
-		String newPref = "";
-		do{
-			newPref = this.student.getRandomPreference();
+		String newPref          = "";
+		do {
+			newPref         = this.student.getRandomPreference();
 			this.setProject(newPref);
 		} while(newPref == null);
 	}
 	
 	public void undoChange() {
-		this.project = this.previousProject;
+		this.project            = this.previousProject;
 	}
 	
 	public int getEnergy() {
-		int rank = this.student.getRanking(project);
+		int rank                = this.student.getRanking(project);
 		return (rank + 2) * (rank + 2);
 	}
         
         public void updateToBetterAssignment() {
-            String newPref = "";
-            newPref = this.student.getRandomPreference();
-            //check if student is preassigned. if so don't do anythig
-            //else, get the rank of current assigned project (this.student.getRanking(this.project))
-            //      get the rank of current assigned project (this.student.getRanking(newPref))
-            //      if (newRank < currentRank) {
-            //          this.setProject(newPref);   }
+            String newPref              = "";
+            newPref                     = this.student.getRandomPreference();
             if(this.student.hasPreassignedProject() == false){
-                int current_rank = this.student.getRanking(this.project);
-                int new_rank     = this.student.getRanking(newPref);
+                int current_rank        = this.student.getRanking(this.project);
+                int new_rank            = this.student.getRanking(newPref);
                 if (new_rank < current_rank){
                     this.setProject(newPref);
                 }
             }
-            
-            
         }
 }

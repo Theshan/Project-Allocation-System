@@ -7,7 +7,7 @@ package projectallocationsystem;
 
 /**
  *
- * @author adventure-ro
+ * @author Olympians
  */
 public class Population {
     int populationSize;
@@ -15,12 +15,12 @@ public class Population {
     CandidateSolution[] solutions;
 
     public Population(int populationSize, PreferenceTable pref) {
-        this.populationSize = populationSize;
-        this.prefTable = pref;
-        solutions = new CandidateSolution[this.populationSize];
+        this.populationSize             = populationSize;
+        this.prefTable                  = pref;
+        solutions                       = new CandidateSolution[this.populationSize];
         
         for (int i = 0; i < size(); i++) {
-            CandidateSolution newSol = new CandidateSolution(pref);          
+            CandidateSolution newSol    = new CandidateSolution(pref);          
             saveIndividual(i, newSol);
         }
     }
@@ -30,10 +30,10 @@ public class Population {
     }
 
     public CandidateSolution getFittest() {
-        CandidateSolution fittest = solutions[0];
+        CandidateSolution fittest       = solutions[0];
         for (int i = 0; i < size(); i++) {
             if (fittest.getFitness() <= getSolution(i).getFitness()) {
-                fittest = getSolution(i);
+                fittest                 = getSolution(i);
             }
         }
         return fittest;
@@ -44,7 +44,7 @@ public class Population {
     }
 
     public void saveIndividual(int index, CandidateSolution sol) {
-        solutions[index] = sol;
+        solutions[index]                = sol;
     }
     
 }

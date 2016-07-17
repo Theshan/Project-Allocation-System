@@ -12,7 +12,7 @@ import java.util.Vector;
 
 /**
  *
- * @author Nadeesha
+ * @author Olympians
  */
 public class CandidateSolution {
     private Vector<CandidateAssignment> assignments				= new Vector<CandidateAssignment>(); 
@@ -54,12 +54,6 @@ public class CandidateSolution {
                     assignments.addElement(cand);
 
                     energy += cand.getEnergy();
-//                    System.out.println("student 			: "+ cand.getStudentEntry().getStudentName());
-//                    System.out.println("project 			: "+ cand.getAssignedProject());
-//                    System.out.println("cand energy			: "+ cand.getEnergy());
-//                    System.out.println("sume of each energy upto now	: "+ energy);
-//                    System.out.println("sum of panelty upto now	: "+ panelty);
-//                    System.out.println("");
             }		
     }
 
@@ -74,10 +68,10 @@ public class CandidateSolution {
         panelty                                 = 0;
         
         Set<String> keySet = candidateAssignmentsMap.keySet();
-        java.util.Iterator<String> it = keySet.iterator();
+        java.util.Iterator<String> it           = keySet.iterator();
         while(it.hasNext()){
-            String studentName = it.next();
-            CandidateAssignment cand = candidateAssignmentsMap.get(studentName);            
+            String studentName                  = it.next();
+            CandidateAssignment cand            = candidateAssignmentsMap.get(studentName);            
             cand.updateToBetterAssignment();
             if(noOfStdAssinedToProject.containsKey(cand.getAssignedProject().intern())) {
                     noOfStdAssinedToProject.put(cand.getAssignedProject().intern(), noOfStdAssinedToProject.get(cand.getAssignedProject().intern()) + 1);   

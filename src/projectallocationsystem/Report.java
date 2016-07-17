@@ -10,65 +10,40 @@ import java.util.Set;
 
 /**
  *
- * @author adventure-ro
+ * @author Olympians
  */
 public class Report {
     private SimulatedAnnealing sa;
     private CandidateSolution smSolution;
     private Hashtable<String, CandidateAssignment> finalSaMap;
-//    private PreferenceTable pref;
     private GeneticAlgorithm ga;
     private CandidateSolution gaSolution;
     private Hashtable<String, CandidateAssignment> finalGaMap;
     
     public Report(SimulatedAnnealing simAn, GeneticAlgorithm genAll){
         this.sa = simAn;
-//        this.pref = prefTable;
         this.ga = genAll;
-        
-//        smSolution = sa.getModifiedBestSolution();
-//        finalSaMap=smSolution.getCandidateAssignmentsMap();
-//        Set<String> keySet = finalSaMap.keySet();
-//        java.util.Iterator<String> it = keySet.iterator();
-//        while(it.hasNext()){
-//            String studentName = it.next();
-//            CandidateAssignment cand = finalSaMap.get(studentName);          
-//            
-//            System.out.println("student 			: "+ cand.getStudentEntry().getStudentName());
-//            System.out.println("project 			: "+ cand.getAssignedProject());
-//            
-//            StudentEntry student = cand.getStudentEntry();
-//            int rank = student.getRanking(cand.getAssignedProject());
-//            int prefCount = student.getNumberOfPreferencedProjects();
-//            if(rank == -1){
-//                System.out.println("Project not on Prefered List");
-//            }
-//            else if(rank > prefCount){
-//                System.out.println("Project not on Prefered List");
-//            }
-//            else{
-//                System.out.println("Project Rank   :" +rank);
-//            }
-//            System.out.println("");
-//        }    
     }
     
     public void geneticAllgorithmReport(){
-        System.out.println("======================================Genetic Algorithm Report======================================");
-        gaSolution = ga.getFittestSolution();
-        finalGaMap=gaSolution.getCandidateAssignmentsMap();
-        Set<String> keySet = finalGaMap.keySet();
-        java.util.Iterator<String> it = keySet.iterator();
+        System.out.println("");
+        System.out.println("====================================== Genetic Algorithm Report ======================================");
+        
+        gaSolution                      = ga.getFittestSolution();
+        finalGaMap                      = gaSolution.getCandidateAssignmentsMap();
+        
+        Set<String> keySet              = finalGaMap.keySet();
+        java.util.Iterator<String> it   = keySet.iterator();
         while(it.hasNext()){
-            String studentName = it.next();
-            CandidateAssignment cand = finalGaMap.get(studentName);          
+            String studentName          = it.next();
+            CandidateAssignment cand    = finalGaMap.get(studentName);          
             
             System.out.println("student 			: "+ cand.getStudentEntry().getStudentName());
             System.out.println("project 			: "+ cand.getAssignedProject());
             
-            StudentEntry student = cand.getStudentEntry();
-            int rank = student.getRanking(cand.getAssignedProject());
-            int prefCount = student.getNumberOfPreferencedProjects();
+            StudentEntry student    = cand.getStudentEntry();
+            int rank                = student.getRanking(cand.getAssignedProject());
+            int prefCount           = student.getNumberOfPreferencedProjects();
             if(rank == -1){
                 System.out.println("Project not on Prefered List");
             }
@@ -84,21 +59,24 @@ public class Report {
     }
     
     public void simulatedAnnealingReport(){
-        System.out.println("======================================Simulated Annealing Report======================================");
-        smSolution = sa.getModifiedBestSolution();
-        finalSaMap=smSolution.getCandidateAssignmentsMap();
-        Set<String> keySet = finalSaMap.keySet();
-        java.util.Iterator<String> it = keySet.iterator();
+        System.out.println("");
+        System.out.println("====================================== Simulated Annealing Report ======================================");
+        
+        smSolution                      = sa.getModifiedBestSolution();
+        finalSaMap                      = smSolution.getCandidateAssignmentsMap();
+        
+        Set<String> keySet              = finalSaMap.keySet();
+        java.util.Iterator<String> it   = keySet.iterator();
         while(it.hasNext()){
-            String studentName = it.next();
-            CandidateAssignment cand = finalSaMap.get(studentName);          
+            String studentName          = it.next();
+            CandidateAssignment cand    = finalSaMap.get(studentName);          
             
             System.out.println("student 			: "+ cand.getStudentEntry().getStudentName());
             System.out.println("project 			: "+ cand.getAssignedProject());
             
-            StudentEntry student = cand.getStudentEntry();
-            int rank = student.getRanking(cand.getAssignedProject());
-            int prefCount = student.getNumberOfPreferencedProjects();
+            StudentEntry student        = cand.getStudentEntry();
+            int rank                    = student.getRanking(cand.getAssignedProject());
+            int prefCount               = student.getNumberOfPreferencedProjects();
             if(rank == -1){
                 System.out.println("Project not on Prefered List");
             }
@@ -106,10 +84,10 @@ public class Report {
                 System.out.println("Project not on Prefered List");
             }
             else{
-                System.out.println("Project Rank   :" +rank);
+                System.out.println("Project Rank   :" + rank);
             }
             System.out.println("");
         }
-        System.out.println("The Final Energy    :" +smSolution.getEnergy());
+        System.out.println("The Final Energy    :" + smSolution.getEnergy());
     }
 }
