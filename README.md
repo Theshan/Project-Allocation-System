@@ -40,12 +40,15 @@ Also there is a **Stand Alone Binary** which can be run from the terminal itself
 
 ## Stand Alone Execution [Fail Safe] ##
 
-This is a pre compiled java project file that you can just run through the terminal or the command line.
+This is a pre compiled java project [classes] file that you can just run through the terminal or the command line. You just have to compile the Main Class to work in your computer.
 
 - Open a **terminal or cmd**
 - Navigate to [*path to project file*/projectallocationsystem/stand-alone/projectallocationsystem/]
-- **For GUI** - Run Command [ java projectallocationsystem.UI ]
-- **For Terminal or cmd Output** - Run Command [ java projectallocationsystem.ProjectAllocationSystem ]
+- **For GUI** - Run Command [ javac -d . UI.java ] *compile the User Interface Main Class*
+- **For Terminal or cmd Output** - Run Command [ javac -d . ProjectAllocationSystem.java ] *compile the Terminal Output Interface Main Class*
+
+-**To Run GUI** - Run Command - [ java projectallocationsystem/UI ] *Run the command for UI Program execution*
+-**For Terminal or cmd Output Report Output** - [ java projectallocationsystem.ProjectAllocationSystem ] *Run the command for Terminal Report Output*
 
 **Note : This is only if the NetBeans Cannot be opened in the target machine**
 
