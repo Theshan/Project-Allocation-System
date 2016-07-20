@@ -47,8 +47,8 @@ This is a pre compiled java project [classes] file that you can just run through
 - **For GUI** - Run Command [ javac -d . UI.java ] *compile the User Interface Main Class*
 - **For Terminal or cmd Output** - Run Command [ javac -d . ProjectAllocationSystem.java ] *compile the Terminal Output Interface Main Class*
 
--**To Run GUI** - Run Command - [ java projectallocationsystem/UI ] *Run the command for UI Program execution*
--**For Terminal or cmd Output Report Output** - [ java projectallocationsystem.ProjectAllocationSystem ] *Run the command for Terminal Report Output*
+- **To Run GUI** - Run Command - [ java projectallocationsystem/UI ] *Run the command for UI Program execution*
+- **For Terminal or cmd Output Report Output** - [ java projectallocationsystem.ProjectAllocationSystem ] *Run the command for Terminal Report Output*
 
 **Note : This is only if the NetBeans Cannot be opened in the target machine**
 
