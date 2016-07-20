@@ -15,7 +15,7 @@ public class ProjectAllocationSystem {
      * @param args the command line arguments
      */
     public static void main(String[] args) {
-        String filename                             = "projectAllocationData.tsv";
+        String filename                             = "src/projectallocationsystem/projectAllocationData.tsv";
         
         PreferenceTable preferenceTable             = new PreferenceTable(filename);
         preferenceTable.fillPreferencesOfAll(10);
